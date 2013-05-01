@@ -1,0 +1,11 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.yaojun.jdbc</groupId>
+  <version>0.1-SNAPSHOT</version>
+  <artifactId>YDataSource</artifactId>
+  <packaging>pom</packaging>  
+  <modules>
+    <module>YDataSource-Core</module>
+	<module>YDataSource-Test</module>
+  </modules>
+</project>

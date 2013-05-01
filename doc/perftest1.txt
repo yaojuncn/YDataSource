@@ -1,0 +1,16 @@
+
+Below is a test case for 
+[get connection and close for many times: ], check YDataSourceMysqlPerfTest01.java for detail
+
+windows + local mysql 
+min:5
+max:10
+
+count: 1,000,000
+1 thread time: 135ms; 142ms; 148ms;139ms; 140ms;
+2 thread time: 313ms; 294ms;275ms;308ms;271ms;
+5 thread time: 201ms;204ms;201ms; 203ms; 205ms;
+
+
+
+
