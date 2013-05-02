@@ -62,6 +62,11 @@ public class YConnection implements Connection{
 		return ds;
 	}
 	
+	public void openConnection(){
+		// open it
+		this.isClosedFlag = false;
+	}
+	
 	
 	public void realClose(){
 		

@@ -35,6 +35,11 @@ public class YDataSourceMysqlPerfTest01 extends YDataSourceMysqlTestBase{
 		testGetConnectionTime(5);
 	}
 
+	@Test
+	public void testGetConnectionThread10() throws Exception{
+		
+		testGetConnectionTime(10);
+	}
 
 	
 	public void testGetConnectionTime(int tno ) throws Exception {

@@ -214,10 +214,13 @@ public class YDataSource implements DataSource{
 	private Connection internalGetConnection(String username, String password) throws SQLException{
 		// 1. first try to get one from queue with timeout
 		try {
-			Connection conn = connectionQueue.poll(blockingtimeout, TimeUnit.MILLISECONDS);
+			YConnection conn = connectionQueue.poll(blockingtimeout, TimeUnit.MILLISECONDS);
 			
 			// 2. if it's valid, just return
 			if(null != conn){
+				
+				conn.openConnection();
+				
 				return conn;
 			}
 			
@@ -237,7 +240,9 @@ public class YDataSource implements DataSource{
 				Connection conn = DriverManager.getConnection(dburl, this.username, password);
 				
 				YConnection yconn = new YConnection(conn, this);
-				connectionQueue.add(yconn);
+				
+				// add this line will cause a bug, next call to getConnection will return a duplicate one, in multiple threads this is an error
+				//connectionQueue.add(yconn);
 				
 				currentCount++;
 				

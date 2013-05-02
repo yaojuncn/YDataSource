@@ -1,23 +1,13 @@
 package com.yaojun.jdbc.mysql;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import junit.framework.Assert;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-
-import com.yaojun.jdbc.YDataSource;
 
 /**
  * 
@@ -111,6 +101,35 @@ public class YDataSourceMysqlTest01 extends YDataSourceMysqlTestBase {
 			}
 			
 		}
+		
+		
+		
+	}
+	
+	@Test
+	public void testGet10() throws Exception{
+		
+		int c = Integer.parseInt(props.getProperty("max"));
+		
+		List<Connection> connList = new ArrayList<Connection>();
+		for(int i = 0; i < c; ++i){
+			Connection conn = yds.getConnection();
+			
+			connList.add(conn);
+		}
+		
+		
+		
+		
+		for(int i = 0; i < c; ++i){
+		
+			Connection conn = connList.get(i);
+			this.queryWithConn(conn);
+			
+			conn.close();
+		}
+		
+		
 		
 		
 		
