@@ -33,9 +33,9 @@ public class YPreparedStatement extends YStatement implements PreparedStatement{
 	
 	private PreparedStatement internalstat;
 	
-	public YPreparedStatement(PreparedStatement stat, YConnection conn) {
+	public YPreparedStatement(PreparedStatement stat, YConnection conn, int querytimeout) {
 		
-		super(stat, conn);
+		super(stat, conn, querytimeout);
 		this.internalstat = stat;
 		
 	}

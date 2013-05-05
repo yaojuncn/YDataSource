@@ -35,9 +35,15 @@ public class YDataSource implements DataSource{
 	private int min;
 	private int max;
 	
-	// all the timeout are in ms unit
+	// in second unit
 	private int querytimeout;
+	
+	// in ms unit
 	private int blockingtimeout;
+	
+	
+	// idle timeout in minutes, after the timeout the connection will be destroyed
+	private int idletimeout;
 	
 	
 	private String exceptionSorterClzName;
@@ -55,11 +61,25 @@ public class YDataSource implements DataSource{
 	private BlockingQueue<YConnection> connectionQueue;
 
 	
+	private YIdleTimeoutThread timeoutThread;
 	
 	
+	/**
+	 * 
+	 * @param driverClzName
+	 * @param dburl
+	 * @param username
+	 * @param password
+	 * @param min
+	 * @param max
+	 * @param querytimeout: in seconds
+	 * @param blockingtimeout: in ms, 
+	 * @param idletimeout  : in minutes; after the time the connection will be destroyed
+	 * @param exceptionSorterClzName: the exception sorter class
+	 */
 	public YDataSource(String driverClzName, String dburl, String username,
 				String password, int min, int max, int querytimeout,
-				int blockingtimeout, String exceptionSorterClzName) {
+				int blockingtimeout, int idletimeout, String exceptionSorterClzName) {
 			super();
 			this.dburl = dburl;
 			this.driverClzName = driverClzName;
@@ -69,6 +89,7 @@ public class YDataSource implements DataSource{
 			this.max = max;
 			this.querytimeout = querytimeout;
 			this.blockingtimeout = blockingtimeout;
+			this.idletimeout = idletimeout;
 			this.exceptionSorterClzName = exceptionSorterClzName;
 			
 			
@@ -99,9 +120,56 @@ public class YDataSource implements DataSource{
 			}
 			
 			currentCount = min;
+			
+			
+			timeoutThread = new YIdleTimeoutThread(this);
+			
+			
 		} catch (Exception e) {
 			logger.error("failed to create connection", e);
 		}
+	}
+	
+	
+	public void checkIdleConnections(){
+		
+		logger.info("entering checkIdleConnections[currentCount,active,free]: " + this.getCurrentCount() + ", " + this.getActiveConnectionsCount() + "," + this.getFreeConnectionsCount() );
+		
+		// for thread safe now, in the future we can try to reduce the lock level
+		synchronized (connectionQueue) {
+
+			YConnection first = this.connectionQueue.peek();
+			while((null != first) && (currentCount > min)){
+				long t = System.currentTimeMillis() - first.getLastUsedTime();
+				
+				long expectedT =  idletimeout* 60 * 1000;
+				
+				// if it's passed the idle timeout 
+				if(t > expectedT){
+					
+					logger.info("now to destroy a connection with idle time(ms): " + t);
+					
+					// because we're in a synchronized block, call queue.remove must success
+					first = this.connectionQueue.remove();
+					
+					
+					this.destroyOneConnection(first);
+					
+					first = this.connectionQueue.peek();
+				}
+				else{
+					
+					long nt = (expectedT - t)/1000;
+					
+					// update the sleep time and let it sleep again
+					this.timeoutThread.setSleepSeconds(nt);
+					
+					break;
+				}
+			}
+			
+		}
+		
 	}
 	
 	public void returnConnection(YConnection conn){
@@ -109,6 +177,18 @@ public class YDataSource implements DataSource{
 		// use add, so that if our code has an error it will throw IllegalStateException  
 		connectionQueue.add(conn);
 		
+		if(currentCount > min){
+			
+			// if it's new 
+			if(this.timeoutThread.getState().equals(Thread.State.NEW)){
+				
+				long sleepSeconds = idletimeout * 60 ;
+				
+				timeoutThread.setSleepSeconds(sleepSeconds);
+				timeoutThread.start();
+			}
+			
+		}
 		
 	}
 	
@@ -331,6 +411,22 @@ public class YDataSource implements DataSource{
 	public String getExceptionSorterClzName() {
 		return exceptionSorterClzName;
 	}
+
+
+	public int getIdletimeout() {
+		return idletimeout;
+	}
+
+
+	public void setIdletimeout(int idletimeout) {
+		this.idletimeout = idletimeout;
+	}
+
+
+	public void setExceptionSorterClzName(String exceptionSorterClzName) {
+		this.exceptionSorterClzName = exceptionSorterClzName;
+	}
  	
+	
 	
 }

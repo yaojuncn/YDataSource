@@ -23,9 +23,22 @@ public class YStatement implements Statement{
 	
 	protected YConnection conn;
 	
-	public YStatement(Statement statement, YConnection conn) {
+	public YStatement(Statement statement, YConnection conn, int querytimeout) {
 		this.internalStatement = statement;
+
+		// set query timeout from datasource config 
+		try {
+			if(querytimeout > 0){
+				this.internalStatement.setQueryTimeout(querytimeout);	
+			}
+			
+		} catch (SQLException e) {
+			logger.error("", e);
+		}
+		
 		this.conn = conn;
+		
+		
 	}
 	
 	protected SQLException checkedException(SQLException e){

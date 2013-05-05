@@ -1,0 +1,16 @@
+2013-05-05 20:25:34 INFO  YIdleTimeoutThread:55 - now to setSleepSeconds: 120
+2013-05-05 20:27:34 INFO  YDataSource:136 - entering checkIdleConnections[currentCount,active,free]: 10, 0,10
+2013-05-05 20:27:34 INFO  YDataSource:150 - now to destroy a connection with idle time(ms): 120007
+2013-05-05 20:27:34 INFO  YConnection:84 - YConnection.realClose called.
+2013-05-05 20:27:34 INFO  YDataSource:150 - now to destroy a connection with idle time(ms): 120007
+2013-05-05 20:27:34 INFO  YConnection:84 - YConnection.realClose called.
+2013-05-05 20:27:34 INFO  YDataSource:150 - now to destroy a connection with idle time(ms): 120008
+2013-05-05 20:27:34 INFO  YConnection:84 - YConnection.realClose called.
+2013-05-05 20:27:34 INFO  YDataSource:150 - now to destroy a connection with idle time(ms): 120010
+2013-05-05 20:27:34 INFO  YConnection:84 - YConnection.realClose called.
+2013-05-05 20:27:34 INFO  YDataSource:150 - now to destroy a connection with idle time(ms): 120011
+2013-05-05 20:27:34 INFO  YConnection:84 - YConnection.realClose called.
+2013-05-05 20:29:34 INFO  YDataSource:136 - entering checkIdleConnections[currentCount,active,free]: 5, 0,5
+2013-05-05 20:31:34 INFO  YDataSource:136 - entering checkIdleConnections[currentCount,active,free]: 5, 0,5
+2013-05-05 20:33:34 INFO  YDataSource:136 - entering checkIdleConnections[currentCount,active,free]: 5, 0,5
+2013-05-05 20:35:34 INFO  YDataSource:136 - entering checkIdleConnections[currentCount,active,free]: 5, 0,5

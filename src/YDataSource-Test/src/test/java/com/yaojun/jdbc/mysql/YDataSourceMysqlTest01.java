@@ -154,20 +154,6 @@ public class YDataSourceMysqlTest01 extends YDataSourceMysqlTestBase {
 		
 	}
 
-	private void queryWithConn(Connection conn) throws SQLException {
-		Statement stat = conn.createStatement();
-		ResultSet rs = stat.executeQuery("select id, name from test");
-		
-		while(rs.next()){
-			int id = rs.getInt(1);
-			String name = rs.getString(2);
-			
-			System.out.println(id + ", " + name);
-		}
-		
-		rs.close();
-		stat.close();
-	}
 	
 	
 	

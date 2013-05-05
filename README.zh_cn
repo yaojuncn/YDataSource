@@ -1,0 +1,23 @@
+
+YDataSource是一个出于个人兴趣，完全利用在家里的时间，编写的简单连接池，目前的最初版本是我在2013年的这3天51假期中实现的。
+
+编写这个的动机之一是以前接触了一点JBoss连接池代码，发现非常复杂和繁重。 当然Jboss为了支持XA,JCA等标准，不得不如此。
+事实上，有大量的应用场景是不需要支持XA,也不需要支持JCA等。我们仅仅是需要一个可以管理连接的池而已。
+
+所以，这个连接池的目标是：
+* 不支持XA
+* 不支持JCA
+* 提供简单的连接管理功能
+* 支持ExceptionSorter, 并且支持运行时动态调整ExceptionSorter的行为； 
+这个功能是目前JBoss连接池、Druid连接池都不具备的；
+按照Druid的说明页来看，https://github.com/alibaba/druid/wiki/%E5%90%84%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%E5%AF%B9%E6%AF%94
+目前只有JBoss连接池和Druid连接池支持ExceptionSorter的行为， 而他们都不支持运行时动态调整， 
+那么YDataSource就是第一个公开发行的支持运行时调整ExceptionSorter行为的连接池
+
+
+在上述基础上，尽可能的做到高效，简洁。
+初步的性能数据可以看doc/perftest1.txt
+
+
+个人水平有限，希望社区大牛多指点！ 
+

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.04" errors="0" skipped="0" tests="1" name="com.yaojun.jdbc.AppTest">
+<testsuite failures="0" time="0.05" errors="0" skipped="0" tests="1" name="com.yaojun.jdbc.AppTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="E:\Program Files\Java\jdk1.6.0_39\jre\bin"/>

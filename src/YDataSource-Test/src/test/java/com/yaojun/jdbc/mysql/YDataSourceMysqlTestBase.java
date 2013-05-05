@@ -2,6 +2,10 @@ package com.yaojun.jdbc.mysql;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import junit.framework.Assert;
@@ -50,10 +54,12 @@ public class YDataSourceMysqlTestBase {
 		int min = Integer.parseInt(props.getProperty("min"));
 		int max = Integer.parseInt(props.getProperty("max"));
 		
+		int idletimeout = Integer.parseInt(props.getProperty("idletimeout"));
+		
 		String exceptionClzname = props.getProperty("exceptionSorterClzName");
 		 
 		
-		yds = new YDataSource(driverClzName, dburl, username, password, min, max, -1, -1, exceptionClzname);
+		yds = new YDataSource(driverClzName, dburl, username, password, min, max, -1, -1, idletimeout, exceptionClzname);
 
 		
 	}
@@ -107,10 +113,27 @@ public class YDataSourceMysqlTestBase {
 		}
 	}
 	
+	protected void queryWithConn(Connection conn) throws SQLException {
+		Statement stat = conn.createStatement();
+		ResultSet rs = stat.executeQuery("select id, name from test");
+		
+		while(rs.next()){
+			int id = rs.getInt(1);
+			String name = rs.getString(2);
+			
+			System.out.println(id + ", " + name);
+		}
+		
+		rs.close();
+		stat.close();
+	}
+
 
 	@After
 	public void cleanup(){
 		this.stopmysql();
 	}
 
+	
+	
 }

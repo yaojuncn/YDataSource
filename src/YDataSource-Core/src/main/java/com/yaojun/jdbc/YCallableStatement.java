@@ -31,8 +31,8 @@ public class YCallableStatement extends YPreparedStatement implements CallableSt
 	
 	//private YConnection conn;
 
-	public YCallableStatement(CallableStatement stat, YConnection conn){
-		super(stat, conn);
+	public YCallableStatement(CallableStatement stat, YConnection conn, int querytimeout){
+		super(stat, conn, querytimeout);
 		this.internalCallableStatement = stat;
 		
 	}

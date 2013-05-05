@@ -1,0 +1,10 @@
+2013-05-05:
+* support querytimeout, idletimeout
+
+add YDataSource-Core-0.1-SNAPSHOT.jar in bin folder, mostly i think this version is a working one;
+
+2013-05-01:
+* finish inital version of YDataSource, features supported
+	a. baisc connection pool management of min, max, blocking timeout
+	b. ExceptionSorter with dynamic behavior
+	
